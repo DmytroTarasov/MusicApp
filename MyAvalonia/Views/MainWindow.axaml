@@ -1,0 +1,58 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MyAvalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:MyAvalonia.Converters"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MyAvalonia.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="MyAvalonia">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <Window.Resources>
+        <converters:ImageConverter x:Key="ImageConverter"/>
+    </Window.Resources>
+
+    
+    <!-- <Window.Resources> -->
+    <!--     <Style Selector="Button" x:Key="ButtonViewControl"> -->
+    <!--         <Setter Property="FontSize" Value="16" /> -->
+    <!--         <Setter Property="Background" Value="LightSkyBlue" /> -->
+    <!--     </Style> -->
+    <!-- </Window.Resources> -->
+
+    <Grid>
+        <TextBlock Text="Playlists" HorizontalAlignment="Center" Margin="0 10 0 0" FontWeight="Bold" FontSize="25" />
+        
+        <ListBox Items="{Binding PlayLists}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 50 0 0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="10*,75*,15*" RowDefinitions="Auto">
+                        <Image Grid.Row="0" Grid.Column="0" Width="50" Height="50" VerticalAlignment="Center"
+                               HorizontalAlignment="Center" 
+                               Source="{Binding Avatar, Converter={StaticResource ImageConverter}}" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"/>
+                        <Button Grid.Row="0" Grid.Column="2" Content="View" FontSize="16" Background="LightSkyBlue" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+    
+    <!-- <ListBox Items="{Binding PlayLists}"> -->
+    <!--     <ListBox.ItemTemplate> -->
+    <!--         <DataTemplate> -->
+    <!--             <Border Background="" CornerRadius="4" Padding="4"> -->
+    <!--                 <TextBlock Text="{Binding Name}"/> -->
+    <!--             </Border> -->
+    <!--         </DataTemplate> -->
+    <!--     </ListBox.ItemTemplate> -->
+    <!-- </ListBox> -->
+    
+</Window>
