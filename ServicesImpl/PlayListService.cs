@@ -7,33 +7,35 @@ namespace ServicesImpl;
 
 public class PlayListService : IPlayListService
 {
-    private HtmlDocument document;
-    public PlayListService()
+    private const string BaseUrl = "https://music.amazon.com/";
+    // private HtmlDocument _document;
+    private readonly HtmlWeb _web;
+    public PlayListService(HtmlWeb web)
     {
-        var url = "https://music.amazon.com/popular/playlists";
+        // var url = "https://music.amazon.com/popular/playlists";
         // var url = "https://music.amazon.com/playlists/B083NH7LZK";
-        var web = new HtmlWeb
-        {
-            UserAgent = "Chrome/109.0.5414.74"
-        };
-        document = web.Load(url);
+        _web = web;
+        // _document = web.Load(url);
     }
     
-    public IEnumerable<PlayListModel> GetAllPlayLists()
+    public IEnumerable<PlayListModel> GetAllPlayLists(string url)
     {
+        HtmlDocument document = _web.Load(BaseUrl + url);
         IEnumerable<PlayListModel> list = document.DocumentNode.Descendants("music-vertical-item")
             .Select(i =>
             {
-                string name = i.Descendants("music-link").First().Attributes["title"].Value;
-                string avatar = i.Descendants("music-image").First().Attributes["src"].Value;
-
-                return new PlayListModel { Name = name, Avatar = avatar };
+                string name = i.QuerySelector("music-link").Attributes["title"].Value;
+                string avatar = i.QuerySelector("music-image").Attributes["src"].Value;
+                string id = i.QuerySelector("music-link a").Attributes["href"].Value.Split("/").Last();
+                
+                return new PlayListModel { Id = id, Name = name, Avatar = avatar };
             });
 
         return list;
     }
-    public PlayListModel GetPlayListWithSongs()
+    public PlayListModel GetPlayListWithSongs(string url)
     {
+        HtmlDocument document = _web.Load(BaseUrl + url);
         string playListName = document.DocumentNode.Descendants("h1").Last().Attributes["title"].Value;
         string playListDescription = document.DocumentNode.QuerySelector("music-link.secondary").Attributes["title"].Value;
         string playListAvatar = document.DocumentNode.QuerySelector(".image-container>music-image").Attributes["src"].Value;

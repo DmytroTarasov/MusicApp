@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:MyAvalonia.ViewModels"
+             xmlns:converters="clr-namespace:MyAvalonia.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MyAvalonia.Views.PlayListView">
+    <Design.DataContext>
+        <vm:PlayListViewModel/>
+    </Design.DataContext>
+    
+    <UserControl.Resources>
+        <converters:ImageConverter x:Key="ImageConverter"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <TextBlock Text="Playlists" HorizontalAlignment="Center" Margin="0 10 0 0" FontWeight="Bold" FontSize="25" />
+    
+        <ListBox Items="{Binding PlayLists}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 50 0 0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="10*,75*,15*" RowDefinitions="Auto">
+                        <Image Grid.Row="0" Grid.Column="0" Width="50" Height="50" VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Source="{Binding Avatar, Converter={StaticResource ImageConverter}}" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"/>
+                        <Button Grid.Row="0" Grid.Column="2" Content="View" FontSize="16" Background="LightSkyBlue" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

@@ -2,6 +2,7 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using HtmlAgilityPack;
 using Microsoft.Extensions.DependencyInjection;
 using MyAvalonia.ViewModels;
 using MyAvalonia.Views;
@@ -39,8 +40,10 @@ public partial class App : Application
     private void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<IPlayListService, PlayListService>();
-        // services.AddSingleton(sp => sp);
+        services.AddSingleton<HtmlWeb, HtmlWeb>(provider => new HtmlWeb { UserAgent = "Chrome/109.0.5414.74" });
+        
         services.AddTransient<MainWindowViewModel>();
+        services.AddTransient<PlayListViewModel>();
 
         // services.AddSingleton<MainWindow>();
     }

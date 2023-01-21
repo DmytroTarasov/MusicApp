@@ -4,6 +4,6 @@ namespace Services;
 
 public interface IPlayListService
 {
-    IEnumerable<PlayListModel> GetAllPlayLists();
-    PlayListModel GetPlayListWithSongs();
+    IEnumerable<PlayListModel> GetAllPlayLists(string url);
+    PlayListModel GetPlayListWithSongs(string url);
 }

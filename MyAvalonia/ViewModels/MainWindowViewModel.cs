@@ -1,26 +1,37 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using Models;
-using Services;
+﻿using System.Reactive;
+using System.Windows.Input;
+using ReactiveUI;
 
 namespace MyAvalonia.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    // public string Greeting => "Welcome to Avalonia!";
-    public ObservableCollection<PlayListModel> PlayLists { get; }
-    private IPlayListService _playListService;
-
-    // public MainWindowViewModel() { }
-    
-    public MainWindowViewModel(IPlayListService playListService)
+    private readonly PlayListViewModel _playListViewModel;
+    public MainWindowViewModel(PlayListViewModel playListViewModel)
     {
-        _playListService = playListService;
-        PlayLists = new ObservableCollection<PlayListModel>(
-            _playListService.GetAllPlayLists().ToList()
-        );
+        _playListViewModel = playListViewModel;
+        
+        LoadPlayListView();
+        
+        LoadPlayListViewCommand = ReactiveCommand.Create(LoadPlayListView);
     }
+    
+    // public ICommand LoadPlayListViewCommand { get; }
+    
+    public ReactiveCommand<Unit, Unit> LoadPlayListViewCommand { get; }
+    
+    private ViewModelBase _currentViewModel;
+    public ViewModelBase CurrentViewModel
+    {
+        get => _currentViewModel;
+        set
+        {
+            _currentViewModel = value;
+        }
+    }
+    private void LoadPlayListView()
+    {
+        CurrentViewModel = _playListViewModel;
+    }
+    
 }

@@ -32,4 +32,10 @@
       <ProjectReference Include="..\ServicesImpl\ServicesImpl.csproj" />
       <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\PlayListView.axaml.cs">
+        <DependentUpon>PlayListView.axaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>

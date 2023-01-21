@@ -6,7 +6,6 @@ using Avalonia.Data.Converters;
 using Avalonia.Media.Imaging;
 
 namespace MyAvalonia.Converters;
-
 public class ImageConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
