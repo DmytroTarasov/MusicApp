@@ -7,6 +7,7 @@
              xmlns:wpf="clr-namespace:MyAvalonia.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MyAvalonia.Views.PlayListView">
+    
     <Design.DataContext>
         <vm:PlayListViewModel/>
     </Design.DataContext>
@@ -15,27 +16,43 @@
         <converters:ImageConverter x:Key="ImageConverter"/>
     </UserControl.Resources>
     
-    <Grid>
-        <TextBlock Text="Playlists" HorizontalAlignment="Center" Margin="0 10 0 0" FontWeight="Bold" FontSize="25" />
+    <UserControl.Styles>
+        <Style Selector="TextBlock.Heading">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+    </UserControl.Styles>
     
-        <ListBox Items="{Binding PlayLists}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 50 0 0">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid ColumnDefinitions="10*, 75*, 0*, 15*" RowDefinitions="Auto">
-                        <Image Grid.Row="0" Grid.Column="0" Width="50" Height="50" VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Source="{Binding Avatar, Converter={StaticResource ImageConverter}}" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="0" Grid.Column="2" IsVisible="False" Text="{Binding Id}" Name="Id"></TextBlock>
-                        <Canvas Grid.Row="0" Grid.Column="3" DataContext="{Binding 
-                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type wpf:MainWindow}}}">
-                            <Button Command="{Binding DataContext.LoadPlayListDetailsView}"
-                                    CommandParameter="{Binding #Id.Text}"
-                                     Content="View" FontSize="14" Background="LightSkyBlue" VerticalAlignment="Center" />
-                        </Canvas>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+    <Grid RowDefinitions="Auto,Auto,*">
+        
+        <Grid Grid.Row="0">
+            <TextBlock Text="Playlists" HorizontalAlignment="Center" Margin="0 10 0 0" FontWeight="Bold" FontSize="24" />
+        </Grid>
+        
+        <Grid Grid.Row="1" ColumnDefinitions="10*,75*" Margin="0 5 0 0">
+            <TextBlock Classes="Heading" Grid.Column="0" Text="Avatar" HorizontalAlignment="Center"/>
+            <TextBlock Classes="Heading" Grid.Column="1" Text="Name"/>
+        </Grid>
+        
+        <Grid Grid.Row="2">
+            <ListBox Items="{Binding PlayLists}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 5 0 0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="10*,75*,0*,15*" RowDefinitions="Auto">
+                            <Image Grid.Column="0" Width="50" Height="50" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Source="{Binding Avatar, Converter={StaticResource ImageConverter}}" />
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" IsVisible="False" Text="{Binding Id}" Name="Id"/>
+                            <Button Grid.Column="3" DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                AncestorType={x:Type wpf:MainWindow}}}" VerticalAlignment="Center"
+                                Command="{Binding DataContext.LoadPlayListDetailsView}"
+                                CommandParameter="{Binding #Id.Text}"
+                                Content="View" FontSize="14" Background="LightSkyBlue"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        
     </Grid>
 </UserControl>
