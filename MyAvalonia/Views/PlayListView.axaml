@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:MyAvalonia.ViewModels"
              xmlns:converters="clr-namespace:MyAvalonia.Converters"
+             xmlns:wpf="clr-namespace:MyAvalonia.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MyAvalonia.Views.PlayListView">
     <Design.DataContext>
@@ -20,12 +21,18 @@
         <ListBox Items="{Binding PlayLists}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 50 0 0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="10*,75*,15*" RowDefinitions="Auto">
+                    <Grid ColumnDefinitions="10*, 75*, 0*, 15*" RowDefinitions="Auto">
                         <Image Grid.Row="0" Grid.Column="0" Width="50" Height="50" VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Source="{Binding Avatar, Converter={StaticResource ImageConverter}}" />
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"/>
-                        <Button Grid.Row="0" Grid.Column="2" Content="View" FontSize="16" Background="LightSkyBlue" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" IsVisible="False" Text="{Binding Id}" Name="Id"></TextBlock>
+                        <Canvas Grid.Row="0" Grid.Column="3" DataContext="{Binding 
+                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type wpf:MainWindow}}}">
+                            <Button Command="{Binding DataContext.LoadPlayListDetailsView}"
+                                    CommandParameter="{Binding #Id.Text}"
+                                     Content="View" FontSize="14" Background="LightSkyBlue" VerticalAlignment="Center" />
+                        </Canvas>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

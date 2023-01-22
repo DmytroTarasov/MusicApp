@@ -2,7 +2,6 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
@@ -36,6 +35,9 @@
     <ItemGroup>
       <Compile Update="Views\PlayListView.axaml.cs">
         <DependentUpon>PlayListView.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\PlayListDetailsView.axaml.cs">
+        <DependentUpon>PlayListDetailsView.axaml</DependentUpon>
       </Compile>
     </ItemGroup>
 </Project>
