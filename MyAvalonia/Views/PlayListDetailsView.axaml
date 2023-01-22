@@ -66,10 +66,11 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="30*,30*,30*,10*">
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                            <TextBlock Grid.Column="1" Text="{Binding Artist}" />
-                            <TextBlock Grid.Column="2" Text="{Binding Album}" />
-                            <TextBlock Grid.Column="3" Text="{Binding Duration}" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" Padding="10" />
+                            <TextBlock Grid.Column="1" Text="{Binding Artist}" Padding="10" />
+                            <TextBlock Grid.Column="2" Text="{Binding Album}" Padding="10" />
+                            <TextBlock Grid.Column="3" Text="{Binding Duration}" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
