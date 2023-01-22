@@ -31,8 +31,10 @@ public class PlayListService : IPlayListService
     {
         HtmlDocument document = _web.Load(BaseUrl + url);
         
-        string playListName = document.DocumentNode.Descendants("h1").Last().Attributes["title"].Value;
-        string playListDescription = document.DocumentNode.QuerySelector("music-link.secondary").Attributes["title"].Value;
+        string playListName = document.DocumentNode.Descendants("h1").Last().Attributes["title"].Value
+            .Replace("amp;", "");
+        string playListDescription = document.DocumentNode.QuerySelector("music-link.secondary").Attributes["title"].Value
+            .Replace("amp;", "");
         string playListAvatar = document.DocumentNode.QuerySelector(".image-container>music-image").Attributes["src"].Value;
 
         IEnumerable<SongModel> songs = document.DocumentNode.QuerySelectorAll("music-image-row")
