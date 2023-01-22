@@ -45,7 +45,5 @@ public partial class App : Application
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<PlayListViewModel>();
         services.AddTransient<PlayListDetailsViewModel>();
-
-        // services.AddSingleton<MainWindow>();
     }
 }

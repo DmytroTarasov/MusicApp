@@ -1,20 +1,16 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Models;
-using ReactiveUI;
 using Services;
 
 namespace MyAvalonia.ViewModels;
 
 public class PlayListViewModel : ViewModelBase
 {
-    public ObservableCollection<PlayListModel> PlayLists { get; }
+    public IEnumerable<PlayListModel> PlayLists { get; }
     private IPlayListService _playListService;
     public PlayListViewModel(IPlayListService playListService)
     {
         _playListService = playListService;
-        PlayLists = new ObservableCollection<PlayListModel>(
-            _playListService.GetAllPlayLists("popular/playlists").ToList()
-        );
+        PlayLists = _playListService.GetAllPlayLists("popular/playlists");
     }
 }

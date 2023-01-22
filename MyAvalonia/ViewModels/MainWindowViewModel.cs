@@ -1,9 +1,7 @@
 ﻿using System.Reactive;
-using Microsoft.Extensions.DependencyInjection;
 using Models;
 using ReactiveUI;
 using Services;
-using ServicesImpl;
 
 namespace MyAvalonia.ViewModels;
 
@@ -24,9 +22,6 @@ public class MainWindowViewModel : ViewModelBase
         LoadPlayListViewCommand = ReactiveCommand.Create(LoadPlayListView);
         LoadPlayListDetailsViewCommand = ReactiveCommand.Create<string>(LoadPlayListDetailsView);
     }
-    
-    // public ICommand LoadPlayListViewCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> LoadPlayListViewCommand { get; }
     public ReactiveCommand<string, Unit> LoadPlayListDetailsViewCommand { get; }
     
@@ -36,7 +31,6 @@ public class MainWindowViewModel : ViewModelBase
         get => _currentViewModel;
         set
         {
-            // _currentViewModel = value;
             this.RaiseAndSetIfChanged(ref _currentViewModel, value);
         }
     }
