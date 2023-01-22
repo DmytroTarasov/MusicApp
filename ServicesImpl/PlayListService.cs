@@ -20,7 +20,7 @@ public class PlayListService : IPlayListService
         return document.DocumentNode.Descendants("music-vertical-item")
             .Select(i =>
             {
-                string name = i.QuerySelector("music-link").Attributes["title"].Value;
+                string name = i.QuerySelector("music-link").Attributes["title"].Value.Replace("amp;", "");
                 string avatar = i.QuerySelector("music-image").Attributes["src"].Value;
                 string id = i.QuerySelector("music-link a").Attributes["href"].Value.Split("/").Last();
                 
@@ -40,7 +40,7 @@ public class PlayListService : IPlayListService
             .Select(musicNode =>
             {
                 List<string> songData = musicNode.QuerySelectorAll(".content>div>music-link")
-                    .Select(item => item.Attributes["title"].Value).ToList();
+                    .Select(item => item.Attributes["title"].Value.Replace("amp;", "")).ToList();
 
                 return new SongModel
                 {
