@@ -27,55 +27,47 @@
         <converters:ImageConverter x:Key="ImageConverter"/>
     </UserControl.Resources>
     
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" 
+    <Grid RowDefinitions="Auto,Auto,Auto,*" 
           DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
           AncestorType={x:Type wpf:MainWindow}}}">
         
-        <Grid Grid.Row="0" ColumnDefinitions="*" Margin="20 10 0 0">
-            <Button Command="{Binding DataContext.LoadPlayListView}"
-                    Content="Go back" FontSize="14" Background="LightSkyBlue" VerticalAlignment="Center" />
-        </Grid>
-        
-        <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="120" Margin="20 10 20 0">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="120" Margin="20 10 20 0">
             <Grid Grid.Column="0">
                 <Image Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Source="{Binding DataContext.SelectedPlayList.Avatar, Converter={StaticResource ImageConverter}}" />
+                       Source="{Binding DataContext.PlayList.Avatar, Converter={StaticResource ImageConverter}}" />
             </Grid>
             <Grid Grid.Column="1" Margin="20 0">
                 <StackPanel>
-                    <TextBlock Classes="PlayListName" Text="{Binding DataContext.SelectedPlayList.Name}"></TextBlock>
-                    <TextBlock Text="{Binding DataContext.SelectedPlayList.Description}" Margin="0 10 0 0"></TextBlock>
+                    <TextBlock Classes="PlayListName" Text="{Binding DataContext.PlayList.Name}"></TextBlock>
+                    <TextBlock Text="{Binding DataContext.PlayList.Description}" Margin="0 10 0 0"></TextBlock>
                 </StackPanel>
             </Grid>
         </Grid>
         
-        <Grid Grid.Row="2" ColumnDefinitions="*" Margin="0 5 0 0">
-            <TextBlock Text="Songs" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" />
-        </Grid>
+        <TextBlock Grid.Row="1" Text="Songs" HorizontalAlignment="Center" FontWeight="Bold"
+                   FontSize="18" Margin="0 10"/>
         
-        <Grid Grid.Row="3" ColumnDefinitions="30*,30*,30*,10*" Margin="0 5 0 0">
+        <Grid Grid.Row="2" ColumnDefinitions="30*,30*,30*,10*">
             <TextBlock Classes="Heading" Grid.Column="0" Text="Name" />
             <TextBlock Classes="Heading" Grid.Column="1" Text="Artist" />
             <TextBlock Classes="Heading" Grid.Column="2" Text="Album" />
             <TextBlock Classes="Heading" Grid.Column="3" Text="Duration" />
         </Grid>
         
-        <Grid Grid.Row="4" Margin="0 5 0 0">
-            <ListBox Items="{Binding DataContext.SelectedPlayList.Songs}"
-                     ScrollViewer.VerticalScrollBarVisibility="Visible">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="30*,30*,30*,10*">
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" Padding="10" />
-                            <TextBlock Grid.Column="1" Text="{Binding Artist}" Padding="10" />
-                            <TextBlock Grid.Column="2" Text="{Binding Album}" Padding="10" />
-                            <TextBlock Grid.Column="3" Text="{Binding Duration}" 
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+        <ListBox Grid.Row="3" Items="{Binding DataContext.PlayList.Songs}"
+             ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0 5 ">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="30*,30*,30*,10*">
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" Padding="10" />
+                        <TextBlock Grid.Column="1" Text="{Binding Artist}" Padding="10" />
+                        <TextBlock Grid.Column="2" Text="{Binding Album}" Padding="10" />
+                        <TextBlock Grid.Column="3" Text="{Binding Duration}" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         
     </Grid>
     

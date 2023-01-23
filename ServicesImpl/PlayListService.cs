@@ -7,7 +7,6 @@ namespace ServicesImpl;
 
 public class PlayListService : IPlayListService
 {
-    private const string BaseUrl = "https://music.amazon.com/";
     private readonly HtmlWeb _web;
     public PlayListService(HtmlWeb web)
     {
@@ -15,7 +14,7 @@ public class PlayListService : IPlayListService
     }
     public IEnumerable<PlayListModel> GetAllPlayLists(string url)
     {
-        HtmlDocument document = _web.Load(BaseUrl + url);
+        HtmlDocument document = _web.Load(url);
         
         return document.DocumentNode.Descendants("music-vertical-item")
             .Select(i =>
@@ -29,15 +28,16 @@ public class PlayListService : IPlayListService
     }
     public PlayListModel GetPlayListWithSongs(string url)
     {
-        HtmlDocument document = _web.Load(BaseUrl + url);
+        bool isAlbum = url.Contains("albums");
+        HtmlDocument document = _web.Load(url);
         
         string playListName = document.DocumentNode.Descendants("h1").Last().Attributes["title"].Value
             .Replace("amp;", "");
-        string playListDescription = document.DocumentNode.QuerySelector("music-link.secondary").Attributes["title"].Value
+        string playListDescription = document.DocumentNode.QuerySelector("music-link.primary").Attributes["title"].Value
             .Replace("amp;", "");
         string playListAvatar = document.DocumentNode.QuerySelector(".image-container>music-image").Attributes["src"].Value;
 
-        IEnumerable<SongModel> songs = document.DocumentNode.QuerySelectorAll("music-image-row")
+        IEnumerable<SongModel> songs = document.DocumentNode.QuerySelectorAll("music-image-row, music-text-row")
             .Where(node => !node.HasClass("disabled-hover"))
             .Select(musicNode =>
             {
@@ -47,9 +47,9 @@ public class PlayListService : IPlayListService
                 return new SongModel
                 {
                     Name = songData.ElementAt(0), 
-                    Artist = songData.ElementAt(1), 
-                    Album = songData.ElementAt(2), 
-                    Duration = songData.ElementAt(3)
+                    Artist = isAlbum ? playListDescription : songData.ElementAt(1), 
+                    Album = isAlbum ? playListName : songData.ElementAt(2), 
+                    Duration = isAlbum ? songData.ElementAt(1) : songData.ElementAt(3)
                 };
             });
         return new PlayListModel { Name = playListName, Description = playListDescription, Avatar = playListAvatar, Songs = songs };

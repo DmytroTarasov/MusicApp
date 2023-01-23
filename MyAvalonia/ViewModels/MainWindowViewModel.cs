@@ -1,4 +1,5 @@
-﻿using System.Reactive;
+﻿using System;
+using System.Reactive;
 using Models;
 using ReactiveUI;
 using Services;
@@ -7,23 +8,16 @@ namespace MyAvalonia.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private readonly PlayListViewModel _playListViewModel;
     private readonly PlayListDetailsViewModel _playListDetailsViewModel;
     private readonly IPlayListService _playListService;
-    public MainWindowViewModel(IPlayListService playListService, PlayListViewModel playListViewModel, 
-        PlayListDetailsViewModel playListDetailsViewModel)
+    public MainWindowViewModel(IPlayListService playListService, PlayListDetailsViewModel playListDetailsViewModel)
     {
-        _playListViewModel = playListViewModel;
         _playListDetailsViewModel = playListDetailsViewModel;
         _playListService = playListService;
         
-        LoadPlayListView();
-        
-        LoadPlayListViewCommand = ReactiveCommand.Create(LoadPlayListView);
-        LoadPlayListDetailsViewCommand = ReactiveCommand.Create<string>(LoadPlayListDetailsView);
+        LoadPlayListCommand = ReactiveCommand.Create<string>(LoadPlayList);
     }
-    public ReactiveCommand<Unit, Unit> LoadPlayListViewCommand { get; }
-    public ReactiveCommand<string, Unit> LoadPlayListDetailsViewCommand { get; }
+    public ReactiveCommand<string, Unit> LoadPlayListCommand { get; }
     
     private ViewModelBase _currentViewModel;
     public ViewModelBase CurrentViewModel
@@ -34,23 +28,19 @@ public class MainWindowViewModel : ViewModelBase
             this.RaiseAndSetIfChanged(ref _currentViewModel, value);
         }
     }
-    private void LoadPlayListView()
+    private void LoadPlayList(string url)
     {
-        CurrentViewModel = _playListViewModel;
-    }
-    private void LoadPlayListDetailsView(string id)
-    {
-        SelectedPlayList = _playListService.GetPlayListWithSongs("playlists/" + id);
+        PlayList = _playListService.GetPlayListWithSongs(url);
         CurrentViewModel = _playListDetailsViewModel;
     }
-    
-    private PlayListModel _selectedPlayList;
-    public PlayListModel SelectedPlayList
+
+    private PlayListModel _playList;
+    public PlayListModel PlayList
     {
-        get => _selectedPlayList;
+        get => _playList;
         set
         {
-            this.RaiseAndSetIfChanged(ref _selectedPlayList, value);
+            this.RaiseAndSetIfChanged(ref _playList, value);
         }
     }
 }

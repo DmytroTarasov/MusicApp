@@ -12,6 +12,26 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     
-    <ContentControl Content="{Binding Path=CurrentViewModel}"></ContentControl>
+    <Window.Styles>
+        <Style Selector="TextBox.Url">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+    </Window.Styles>
+    
+    <Grid RowDefinitions="Auto, *">
+        
+        <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" Width="500">
+            <TextBlock >Enter a url</TextBlock>
+            <Grid ColumnDefinitions="45*,Auto">
+                <TextBox Grid.Column="0" Margin="0 5" Classes="Url" Name="Url"/>
+                <Button Grid.Column="1" Content="View" FontSize="16" Background="LightSkyBlue" Margin="10 0"
+                    Command="{Binding LoadPlayListCommand}"
+                    CommandParameter="{Binding #Url.Text}"/>
+            </Grid>
+        </StackPanel>
+        
+        <ContentControl Grid.Row="1" IsVisible="{Binding PlayList}" 
+            Content="{Binding Path=CurrentViewModel}"></ContentControl>
+    </Grid>
     
 </Window>
